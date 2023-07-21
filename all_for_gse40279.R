@@ -20,6 +20,7 @@ options(timeout=100000)
 # Check the input timeout_seconds
 getOption("timeout")
 
+
 # Download GSE40279 by a fuction getGEO() from modified GEOquery package.
 gse40279 <- getGEO("GSE40279", GSEMatrix = TRUE, AnnotGPL = TRUE)
 gse40279_matrix <- gse40279[[1]]
