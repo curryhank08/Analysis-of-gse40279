@@ -281,10 +281,10 @@ result_limma_YO <- topTable(fit2, coef=2, number = Inf, adjust.method = "BH", so
 result_limma_MO <- topTable(fit2, coef=3, number = Inf, adjust.method = "BH", sort.by = "logFC")
 
 # Outcome of each hypothesis test
-results <- decideTests(fit2)
+results <- decideTests(fit2, method = "separate", adjust.method = "BH", p.value = 1e-5)
 
 # Showing numbers of genes significant in each comparison
-vennDiagram(results)
+vennDiagram(results, show.include = FALSE) + title('Numbers of genes significant (p.value<1e-5) in each comparison')
 
 # Remove rows with missing values
 # result_limma_coef1_clean <- na.omit(result_limma_2)
