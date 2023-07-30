@@ -175,23 +175,6 @@ ggplot(res_M_volcano_clean, aes(x = logFC, y = neg_logP)) +
   ggtitle("Volcano plot for gse40279 (Analysis of DiffMean on MEAL)")+
   labs(x="log2(Flod change)", y="-log10(p-value)")
 
-
-library(ggplot2)
-# Add log-transformed p-value column to result_limma_YM
-result_limma_YM$neg_logP <- -log10(result_limma_YM$P.Value)
-probe_type <- ifelse(result_limma_YM$neg_logP > -log10(0.05), "sig", "ns")
-result_limma_YM$probe_type <- probe_type
-cols <- c("sig" = "#ffad73", "ns" = "grey")
-ggplot(result_limma_YM, aes(x = logFC, y = neg_logP, color = probe_type)) +
-  geom_point(size = 1) +
-  scale_color_manual(values = cols) +
-  labs(x = "log(Fold Change)", y = "-log10(P.Value)") +
-  ggtitle("Volcano Plot: Y vs. M") +
-  theme_minimal() +
-  geom_vline(xintercept = c(-0.1, 0.1), linetype = "dashed", color = "blue") +
-  geom_hline(yintercept = -log10(0.05), linetype = "dashed", color = "red")
-
-
 # Way 2 to plot volcano 
 plot(res, rid = "DiffMean", type = "volcano", tPV = 14, tFC = 0.1, 
      show.labels = FALSE) + ggtitle("Volcano plot for gse40279 (Analysis of DiffMean on MEAL)")
@@ -302,6 +285,25 @@ results <- decideTests(fit2, method = "separate", adjust.method = "BH", p.value 
 
 # Showing numbers of genes significant in each comparison
 vennDiagram(results, show.include = FALSE) + title('Numbers of genes significant (p.value<1e-5) in each comparison')
+
+library(ggplot2)
+# Add log-transformed p-value column to result_limma_YM
+result_limma_YM$neg_logP <- -log10(result_limma_YM$P.Value)
+# Specify the type of the probes in result_limma_YM(from gse40279)
+probe_type <- ifelse(result_limma_YM$neg_logP > -log10(0.05), "sig", "ns")
+# Add the processed probe types column to result_limma_YM
+result_limma_YM$probe_type <- probe_type
+# Define the colors for the values(sig or ns) in probe_type
+cols <- c("sig" = "red", "ns" = "grey")
+# Create a volcano plot with the configurable colors for the points   
+ggplot(result_limma_YM, aes(x = logFC, y = neg_logP, color = probe_type)) +
+  geom_point(size = 1) +
+  scale_color_manual(values = cols) +
+  labs(x = "log(Fold Change)", y = "-log10(P.Value)") +
+  ggtitle("Volcano Plot: Y vs. M") +
+  theme_minimal() +
+  geom_vline(xintercept = c(-0.1, 0.1), linetype = "dashed", color = "blue") +
+  geom_hline(yintercept = -log10(0.05), linetype = "dashed", color = "red")
 
 # Remove rows with missing values
 # result_limma_coef1_clean <- na.omit(result_limma_2)
