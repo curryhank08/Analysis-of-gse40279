@@ -286,6 +286,7 @@ results <- decideTests(fit2, method = "separate", adjust.method = "BH", p.value 
 # Showing numbers of genes significant in each comparison
 vennDiagram(results, show.include = FALSE) + title('Numbers of genes significant (p.value<1e-5) in each comparison')
 
+## Volcano Plot for the processed results above by ggplot
 library(ggplot2)
 # Add log-transformed p-value column to result_limma_YM
 result_limma_YM$neg_logP <- -log10(result_limma_YM$P.Value)
