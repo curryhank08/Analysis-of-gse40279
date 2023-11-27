@@ -1,0 +1,50 @@
+---
+title: "Instruction_of_downloading_GEO_dataset"
+author: "姚博瀚"
+date: "2023-11-27"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# Install remotes from CRAN
+#install.packages("remotes")
+```
+
+### Installation of GEOquery
+#### Approach 1: From github of GEOquery's author
+```{r}
+# Install GEOquery with fix of timeout bug
+# by using function(install_github()) from 'remotes' package. 
+library(remotes)
+install_github("seandavi/GEOquery", force = TRUE)
+```
+
+#### Approach 2: From my github
+```{r}
+# Download modified GEOquery package from my github 
+# by using function(install_github()) from 'remotes' package. 
+library(remotes)
+install_github("curryhank08/GEOquery_with_modifiable_timeout_seconds", force = TRUE)
+```
+
+### Load GEOquery
+```{r}
+# Load modified GEOquery or GEOquery 2.69.1/2.70.0up version
+library(GEOquery)
+# Setting the max timeout_seconds (Whatever you want to set)
+options(timeout=100000)
+# Check the input timeout_seconds
+getOption("timeout")
+```
+
+### Download GEO dataset through accession id
+```{r}
+# Download GSE40279 by a fuction getGEO() from GEOquery package.
+gse30870 <- getGEO("GSE30870", GSEMatrix = TRUE, AnnotGPL = TRUE)
+gse30870_matrix <- gse30870[[1]]
+expression_data <- exprs(gse30870_matrix)
+#head(expression_data)
+```
