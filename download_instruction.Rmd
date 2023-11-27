@@ -1,10 +1,10 @@
 ---
 title: "Instruction_of_downloading_GEO_dataset"
-author: "姚博瀚"
+author: "hank yao"
 date: "2023-11-27"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
