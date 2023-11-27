@@ -1,26 +1,34 @@
-#### author: 姚博瀚
+##### author: 姚博瀚
 
-### Part 1
-## Download gse40279 and run analysis by using "MEAL" package (from original code 4.R)
+#### Part 1
+### Download gse40279 and run analysis by using "MEAL" package (from original code 4.R)
 library(MEAL)
 library(minfi)
 library(limma)
 library(ggplot2)
 
-# Install remotes from CRAN (Optional)
+### Installation of GEOquery
+## Approach 1: From my github
+# Install remotes from CRAN
 install.packages("remotes")
 # Download modified GEOquery package from my github 
 # by using function(install_github()) from 'remotes' package. 
 library(remotes)
 install_github("curryhank08/GEOquery_with_modifiable_timeout_seconds", force = TRUE)
-# Load modified GEOquery
+
+## Approach 2: From github of GEOquery's author
+# Install GEOquery with fix of timeout bug
+library(remotes)
+install_github("seandavi/GEOquery")
+
+# Load modified GEOquery or GEOquery 2.70 version
 library(GEOquery)
 # Setting the max timeout_seconds
 options(timeout=100000)
 # Check the input timeout_seconds
 getOption("timeout")
 
-# Download GSE40279 by a fuction getGEO() from modified GEOquery package.
+# Download GSE40279 by a fuction getGEO() from GEOquery package.
 gse40279 <- getGEO("GSE40279", GSEMatrix = TRUE, AnnotGPL = TRUE)
 gse40279_matrix <- gse40279[[1]]
 
@@ -65,7 +73,7 @@ result_Meal <- getProbeResults(res, rid = 1,
 # Remove rows with missing values
 # result_Meal_clean <- na.omit(result_Meal)
 
-### Part 1-2
+#### Part 1-2
 ## manhattan plot for all
 library(qqman)
 # function from qqman to plot manhattan 
